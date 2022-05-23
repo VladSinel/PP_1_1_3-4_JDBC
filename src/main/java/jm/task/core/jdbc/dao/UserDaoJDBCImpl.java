@@ -5,7 +5,6 @@ import jm.task.core.jdbc.util.Util;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
@@ -77,7 +76,8 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
 
-        try(ResultSet result = connection.createStatement().executeQuery("SELECT * FROM users")) {
+        try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
+                ResultSet result = statement.executeQuery()) {
             while (result.next()) {
                 User user = new User();
                 user.setId(result.getLong(1));
